@@ -6,7 +6,6 @@ public class Account {
     private double balance;
 
     public Account() {
-//        this.id = id;
         this.id = counter++;
     }
 

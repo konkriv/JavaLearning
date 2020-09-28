@@ -8,56 +8,97 @@ import static org.junit.jupiter.api.Assertions.*;
 public class AccountTest {
 
     @Test
-    void successAdd(){
+    void add() {
+//        given
         Account account = new Account();
-        assertTrue(account.add(137.23));
-        assertEquals(137.23,account.getBalance());
+
+//        when
+        boolean isSuccess = account.add(137.23);
+
+//        then
+        assertTrue(isSuccess);
+    }
+
+    @Test
+    void addZeroAmount() {
+//        given
+        Account account = new Account();
+
+//        when
+        boolean isSuccess = account.add(0);
+
+//        then
+        assertFalse(isSuccess);
+    }
+
+    @Test
+    void addNegativeAmount() {
+//        given
+        Account account = new Account();
+
+//        when
+        boolean isSuccess = account.add(-1);
+
+//        then
+        assertFalse(isSuccess);
+    }
+
+    @Test
+    void Withdraw() {
+//        given
+        double addAmount = 100;
+        double withdrawAmount = 50.5;
+        Account account = new Account();
+        account.add(addAmount);
+
+//        when
+        boolean isSuccess = account.withdraw(withdrawAmount);
+
+//        then
+        assertTrue(isSuccess);
+        assertEquals(addAmount - withdrawAmount, account.getBalance());
+    }
+
+
+    @Test
+    void withdrawNegativeAmount() {
+//        given
+        Account account = new Account();
         account.add(100);
-        assertEquals(237.23,account.getBalance());
+
+//        when
+        boolean isSuccess = account.withdraw(-1);
+
+//        then
+        assertFalse(isSuccess);
     }
 
     @Test
-    void addZeroAmount(){
-        Account account = new Account();
-        assertFalse(account.add(0));
-    }
-
-    @Test
-    void addNegativeAmount(){
-        Account account = new Account();
-        assertFalse(account.add(-1));
-    }
-
-    @Test
-    void successWithdraw(){
+    void withdrawZeroAmount() {
+//        given
         Account account = new Account();
         account.add(100);
-        assertTrue(account.withdraw(50.5));
-        assertEquals(49.5,account.getBalance());
-        account.withdraw(10);
-        assertEquals(39.5, account.getBalance());
-    }
 
+//        when
+        boolean isSuccess = account.withdraw(0);
 
-    @Test
-    void withdrawNegativeAmount(){
-        Account account = new Account();
-        account.add(100);
-        assertFalse(account.withdraw(-1));
+//        then
+        assertFalse(isSuccess);
     }
 
     @Test
-    void withdrawZeroAmount(){
+    void withdrawToMuchMoney() {
+//        given
+        double addAmount = 100;
+        double withdrawAmount = 200;
         Account account = new Account();
-        account.add(100);
-        assertFalse(account.withdraw(0));
-    }
+        account.add(addAmount);
 
-    @Test
-    void notEnoughMoney(){
-        Account account = new Account();
-        account.add(100);
-        assertFalse(account.withdraw(200));
+//        when
+        boolean isSuccess =  account.withdraw(withdrawAmount);
+
+//        then
+        assertFalse(isSuccess);
     }
 
 }

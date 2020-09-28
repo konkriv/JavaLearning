@@ -2,109 +2,89 @@ package test;
 
 import main.model.Customer;
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class CustomerTest {
 
     @Test
     void openAccount() {
-        assertTrue(getTestCustomer().openAccount());
+//        given
+        Customer customer = getTestCustomer();
+//        when
+        boolean isSuccess = customer.openAccount();
+//        then
+        assertTrue(isSuccess);
     }
 
     @Test
-    void accountAlreadyOpened(){
+    void openAccountWhenOneAlreadyExist(){
+//        given
         Customer customer = getTestCustomer();
         customer.openAccount();
-        assertFalse(customer.openAccount());
+//        when
+        boolean isSuccess = customer.openAccount();
+//        then
+        assertFalse(isSuccess);
     }
 
     @Test
     void closeAccount() {
+//        given
         Customer customer = getTestCustomer();
         customer.openAccount();
-        assertTrue(customer.closeAccount());
+//        when
+        boolean isSuccess = customer.closeAccount();
+//        then
+        assertTrue(isSuccess);
     }
 
     @Test
-    void accountDoesNotExist1() {
+    void closeAccountWhenItDoesNotExist() {
+//        given
         Customer customer = getTestCustomer();
-        assertFalse(customer.closeAccount());
-    }
-    @Test
-    void accountDoesNotExist2() {
-        Customer customer = getTestCustomer();
-        customer.openAccount();
-        customer.closeAccount();
-        assertFalse(customer.closeAccount());
+//        when
+        boolean isSuccess = customer.closeAccount();
+//        then
+        assertFalse(isSuccess);
     }
 
     @Test
     void fullName() {
+//        given
         String name = "Акакий";
         String lastName = "Башмачкин";
+//        when
         Customer customer = new Customer(name, lastName);
+//        then
         assertEquals(lastName + " " + name, customer.fullName());
     }
 
     @Test
-    void successAdd(){
+    void addMoneyToCurrentAccount(){
+//        given
         Customer customer =  getTestCustomer();
         customer.openAccount();
-        assertTrue(customer.addMoneyToCurrentAccount(137.23));
-        assertEquals(137.23,customer.getBalance());
-        customer.addMoneyToCurrentAccount(100);
-        assertEquals(237.23,customer.getBalance());
+        double amount = 137.23;
+//        when
+        boolean isSuccess =  customer.addMoneyToCurrentAccount(amount);
+//        then
+        assertTrue(isSuccess);
+        assertEquals(amount,customer.getBalance());
     }
 
     @Test
-    void addZeroAmount(){
+    void withdrawFromCurrentAccount(){
+//        given
         Customer customer =  getTestCustomer();
         customer.openAccount();
-        assertFalse(customer.addMoneyToCurrentAccount(0));
-    }
-
-    @Test
-    void addNegativeAmount(){
-        Customer customer =  getTestCustomer();
-        customer.openAccount();
-        assertFalse(customer.addMoneyToCurrentAccount(-1));
-    }
-
-    @Test
-    void successWithdraw(){
-        Customer customer =  getTestCustomer();
-        customer.openAccount();
-        customer.addMoneyToCurrentAccount(100);
-        assertTrue(customer.withdrawFromCurrentAccount(50.5));
-        assertEquals(49.5,customer.getBalance());
-        customer.withdrawFromCurrentAccount(10);
-        assertEquals(39.5, customer.getBalance());
-    }
-
-
-    @Test
-    void withdrawNegativeAmount(){
-        Customer customer =  getTestCustomer();
-        customer.openAccount();
-        customer.addMoneyToCurrentAccount(100);
-        assertFalse(customer.withdrawFromCurrentAccount(-1));
-    }
-
-    @Test
-    void withdrawZeroAmount(){
-        Customer customer =  getTestCustomer();
-        customer.openAccount();
-        customer.addMoneyToCurrentAccount(100);
-        assertFalse(customer.withdrawFromCurrentAccount(0));
-    }
-
-    @Test
-    void notEnoughMoney(){
-        Customer customer =  getTestCustomer();
-        customer.openAccount();
-        customer.addMoneyToCurrentAccount(100);
-        assertFalse(customer.withdrawFromCurrentAccount(200));
+        double addAmount = 100;
+        double withdrawAmount = 50.5;
+        customer.addMoneyToCurrentAccount(addAmount);
+//        when
+        boolean isSuccess = customer.withdrawFromCurrentAccount(withdrawAmount);
+//        then
+        assertTrue(isSuccess);
+        assertEquals(addAmount-withdrawAmount, customer.getBalance());
     }
 
     private Customer getTestCustomer(){

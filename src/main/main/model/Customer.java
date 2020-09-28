@@ -1,7 +1,5 @@
 package main.model;
 
-
-
 public class Customer {
     private final String name;
     private final String lastName;
@@ -83,5 +81,4 @@ public class Customer {
         }
         return account.add(amount);
     }
-
 }
